@@ -5,12 +5,17 @@ int main(int argc, char **argv) {
 
     int world_rank, num_ranks;
     int proc_rows, proc_cols;
+    bool prflag, pcflag;
     int n;
+    bool nflag;
     PetscFunctionBeginUser;
     PetscCall(PetscInitialize(&argc, &argv, NULL, NULL));
-    PetscCall(PetscOptionsGetInt(NULL, NULL, "-proc_rows", &proc_rows, NULL));
-    PetscCall(PetscOptionsGetInt(NULL, NULL, "-proc_cols", &proc_cols, NULL));
-    PetscCall(PetscOptionsGetInt(NULL, NULL, "-n", &n, NULL));
+    PetscCall(PetscOptionsGetInt(NULL, NULL, "-proc_rows", &proc_rows, &prflag));
+    PetscCall(PetscCheck(prflag, "Must specify -proc_rows"));
+    PetscCall(PetscOptionsGetInt(NULL, NULL, "-proc_cols", &proc_cols, &pcflag));
+    PetscCall(PetscCheck(pcflag, "Must specify -proc_cols"));
+    PetscCall(PetscOptionsGetInt(NULL, NULL, "-n", &n, &nflag));
+    PetscCall(PetscCheck(nflag, "Must specify -n"));
 
 
     PetscCall(MPI_Comm_rank(MPI_COMM_WORLD, &world_rank));
