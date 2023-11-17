@@ -53,6 +53,8 @@ int main(int argc, char **argv) {
 
     printf("hello from rank %d\n", world_rank);
 
+    PetscCall(VecView(v, PETSC_VIEWER_STDOUT_WORLD));
+
     double norm;
     PetscCall(VecNorm(v, NORM_2, &norm));
     PetscPrintf(PETSC_COMM_WORLD, "Norm: %f\n", norm);
