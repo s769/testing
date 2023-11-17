@@ -1,5 +1,5 @@
 git pull
-cmake . -DCMAKE_C_COMPILER=mpicc -DCMAKE_CXX_COMPILER=mpicxx -DCMAKE_CUDA_COMPILER=nvcc  -DCMAKE_CUDA_ARCHITECTURES=80 -DCMAKE_CUDA_FLAGS="-ccbin mpicxx" 
+cmake . 
 make -j
 
 # run with:
