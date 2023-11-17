@@ -57,6 +57,7 @@ int main(int argc, char **argv) {
 
     Vec w;
     PetscCall(VecDuplicate(v, &w));
+    PetscCall(VecZeroEntries(w));
 
     PetscCall(VecAXPY(w, 1.0, v)); // 
 
