@@ -62,7 +62,7 @@ int main(int argc, char **argv) {
 
 
     double norm;
-    PetscCall(VecNorm(w, NORM_2, &norm));
+    PetscCall(VecNorm(v, NORM_2, &norm)); // replace with norm of w and doesnt hang
     PetscPrintf(PETSC_COMM_WORLD, "Norm: %f\n", norm);
 
     PetscCall(VecDestroy(&v));
