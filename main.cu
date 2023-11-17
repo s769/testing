@@ -55,11 +55,18 @@ int main(int argc, char **argv) {
 
     PetscCall(VecView(v, PETSC_VIEWER_STDOUT_WORLD));
 
+    Vec w;
+    PetscCall(VecDuplicate(v, &w));
+
+    PetscCall(VecAXPY(w, 2.0, v));
+
+
     double norm;
-    PetscCall(VecNorm(v, NORM_2, &norm));
+    PetscCall(VecNorm(w, NORM_2, &norm));
     PetscPrintf(PETSC_COMM_WORLD, "Norm: %f\n", norm);
 
     PetscCall(VecDestroy(&v));
+    PetscCall(VecDestroy(&w));
     PetscCall(PetscLayoutDestroy(&layout));
 
 
