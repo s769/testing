@@ -58,7 +58,7 @@ int main(int argc, char **argv) {
     Vec w;
     PetscCall(VecDuplicate(v, &w));
 
-    PetscCall(VecAXPY(w, 2.0, v));
+    PetscCall(VecAXPY(w, 1.0, v)); // 
 
 
     double norm;
