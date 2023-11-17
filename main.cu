@@ -36,7 +36,7 @@ int main(int argc, char **argv) {
     PetscLayout layout;
     PetscCall(PetscLayoutCreate(PETSC_COMM_WORLD, &layout));
     PetscCall(PetscLayoutSetBlockSize(layout, 1));
-    if (row_color == 0)
+    if (row_rank == 0)
         PetscCall(PetscLayoutSetLocalSize(layout, n/proc_cols));
     else
         PetscCall(PetscLayoutSetLocalSize(layout, 0));
@@ -45,7 +45,7 @@ int main(int argc, char **argv) {
     PetscCall(VecSetType(v, VECCUDA));
 
 
-    if (row_color == 0)
+    if (row_rank == 0)
     {
         PetscCall(VecCUDAReplaceArray(v, d_a));
     }
@@ -55,7 +55,7 @@ int main(int argc, char **argv) {
     PetscCall(VecNorm(v, NORM_2, &norm));
     PetscPrintf(PETSC_COMM_WORLD, "Norm: %f\n", norm);
 
-    PetscCall(VecDestroy(v));
+    PetscCall(VecDestroy(&v));
     PetscCall(PetscLayoutDestroy(&layout));
 
 
