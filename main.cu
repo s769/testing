@@ -59,6 +59,8 @@ int main(int argc, char **argv) {
     PetscCall(VecDuplicate(v, &w));
     PetscCall(VecZeroEntries(w));
 
+    PetscCall(VecView(w, PETSC_VIEWER_STDOUT_WORLD));
+
     PetscCall(VecAXPY(w, 1.0, v)); // 
 
 
