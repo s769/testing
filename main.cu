@@ -51,6 +51,13 @@ int main(int argc, char **argv) {
     }
     PetscCall(VecSetUp(*v));
 
+    double norm;
+    PetscCall(VecNorm(*v, NORM_2, &norm));
+    PetscPrintf(PETSC_COMM_WORLD, "Norm: %f\n", norm);
+
+    PetscCall(VecDestroy(*v));
+    PetscCall(PetscLayoutDestroy(layout));
+    
 
     
 
