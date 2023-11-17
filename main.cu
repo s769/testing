@@ -61,11 +61,11 @@ int main(int argc, char **argv) {
 
     PetscCall(VecView(w, PETSC_VIEWER_STDOUT_WORLD));
 
-    PetscCall(VecAXPY(w, 1.0, v)); // 
+    PetscCall(VecAXPY(w, 1.0, v)); 
 
 
     double norm;
-    PetscCall(VecNorm(w, NORM_2, &norm)); // replace with norm of w and doesnt hang
+    PetscCall(VecNorm(v, NORM_2, &norm)); // replace with norm of w and doesnt hang
     PetscPrintf(PETSC_COMM_WORLD, "Norm: %f\n", norm);
 
     PetscCall(VecDestroy(&v));
