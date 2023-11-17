@@ -50,6 +50,7 @@ int main(int argc, char **argv) {
         PetscCall(VecCUDAReplaceArray(v, d_a));
     }
     PetscCall(VecSetUp(v));
+    printf("Rank %d: %d\n", world_rank, VecGetLocalSize(v));
 
     double norm;
     PetscCall(VecNorm(v, NORM_2, &norm));
