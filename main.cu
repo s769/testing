@@ -29,6 +29,7 @@ int main(int argc, char **argv) {
         }
         cudaMalloc(&d_a, n * sizeof(double));
         cudaMemcpy(d_a, a, n * sizeof(double), cudaMemcpyHostToDevice);
+        free(a);
 
     }
 
