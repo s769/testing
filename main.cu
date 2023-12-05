@@ -99,7 +99,7 @@ int main(int argc, char **argv) {
         for (int j = 0; j < nm; j++)
         {
             idx[i*nm + j] = before_me2 + i + j*nt;
-            print("world_rank: %d, idx: %d\n", world_rank, idx[i*nm + j]);
+            printf("world_rank: %d, idx: %d\n", world_rank, idx[i*nm + j]);
         }
     }
 
