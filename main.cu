@@ -130,7 +130,7 @@ int main(int argc, char **argv) {
     PetscCall(PetscLayoutDestroy(&layout));
     PetscCall(PetscLayoutDestroy(&layout2));
     PetscCall(ISDestroy(&is));
-    PetscCall(ISDestroy(&is2));
+    // PetscCall(ISDestroy(&is2));
     delete[] idx;
     
 
