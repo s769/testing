@@ -81,6 +81,7 @@ int main(int argc, char **argv) {
     int nt_local = (world_rank < nt % num_ranks) ? nt / num_ranks + 1 : nt / num_ranks;
     int before_me2 = (world_rank < nt % num_ranks) ? (nt/num_ranks + 1) * world_rank : (nt/num_ranks + 1) * nt % num_ranks + (nt/num_ranks) * (world_rank - nt % num_ranks);
 
+    printf("world_rank: %d, nt_local: %d, before_me2: %d\n", world_rank, nt_local, before_me2);
     if (col_rank == 0)
         PetscCall(PetscLayoutSetLocalSize(layout2, nt_local * nm));
     else
