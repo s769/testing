@@ -72,6 +72,7 @@ int main(int argc, char **argv) {
     PetscCall(VecView(v, PETSC_VIEWER_STDOUT_WORLD));
 
     VecScatter scatter;
+    Vec v2;
     IS is;
     
     PetscLayout layout2;
