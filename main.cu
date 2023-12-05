@@ -103,7 +103,7 @@ int main(int argc, char **argv) {
     }
 
     PetscCall(ISCreateGeneral(PETSC_COMM_WORLD, nt * nm, idx, PETSC_COPY_VALUES, &is));
-    PetscCall(VecScatterCreate(v, is, v2, is, &scatter));
+    PetscCall(VecScatterCreate(v, is, v2, NULL, &scatter));
     PetscCall(VecScatterBegin(scatter, v, v2, INSERT_VALUES, SCATTER_FORWARD));
     PetscCall(VecScatterEnd(scatter, v, v2, INSERT_VALUES, SCATTER_FORWARD));
     PetscCall(VecScatterDestroy(&scatter));
@@ -118,7 +118,7 @@ int main(int argc, char **argv) {
     PetscCall(PetscLayoutDestroy(&layout));
     PetscCall(PetscLayoutDestroy(&layout2));
     PetscCall(ISDestroy(&is));
-
+    
 
 
 
