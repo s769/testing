@@ -28,7 +28,7 @@ int main(int argc, char **argv) {
     double *a, *d_a;
     int nm_local = (col_rank < nm % proc_cols) ? nm / proc_cols + 1 : nm / proc_cols;
 
-    int before_me = (col_rank < nm % proc_cols) ? (nm/proc_cols + 1) * col_rank : (nm/proc_cols + 1) * nm % proc_cols + (nm/proc_cols) * (col_rank - nm % proc_cols);
+    int before_me = (col_rank < nm % proc_cols) ? (nm/proc_cols + 1) * col_rank : (nm/proc_cols + 1) * (nm % proc_cols) + (nm/proc_cols) * (col_rank - nm % proc_cols);
 
     Vec v;
     if (row_rank == 0)
@@ -81,7 +81,6 @@ int main(int argc, char **argv) {
     int nt_local = (world_rank < nt % num_ranks) ? nt / num_ranks + 1 : nt / num_ranks;
     int before_me2 = (world_rank < nt % num_ranks) ? (nt/num_ranks + 1) * world_rank : (nt/num_ranks + 1) * (nt % num_ranks) + (nt/num_ranks) * (world_rank - nt % num_ranks);
 
-    printf("world_rank: %d, nt_local: %d, before_me2: %d\n", world_rank, nt_local, before_me2);
     if (col_rank == 0)
         PetscCall(PetscLayoutSetLocalSize(layout2, nt_local * nm));
     else
