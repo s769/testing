@@ -99,26 +99,26 @@ int main(int argc, char **argv) {
     {
         for (int j = 0; j < nm; j++)
         {
-            idx[i*nm + j] = before_me2 + i + j*nt;
+            idx[i*nm + j] =  i + j*nt;
         }
     }
+// before_me2 +
 
-    IS is2;
-    int rstart, rend;
-    PetscCall(VecGetOwnershipRange(v2, &rstart, &rend));
-    PetscCall(ISCreateStride(PETSC_COMM_WORLD, rend - rstart, rstart, 1, &is2));
 
 
     PetscCall(ISCreateGeneral(PETSC_COMM_WORLD, nt_local * nm, idx, PETSC_USE_POINTER, &is));
-    PetscCall(VecScatterCreate(v, is, v2, is2, &scatter));
+    PetscCall(VecScatterCreate(v, is, v2, NULL, &scatter));
     // PetscCall(VecScatterBegin(scatter, v, v2, INSERT_VALUES, SCATTER_FORWARD));
     // PetscCall(VecScatterEnd(scatter, v, v2, INSERT_VALUES, SCATTER_FORWARD));
+
 
 
     // PetscCall(VecView(v, PETSC_VIEWER_STDOUT_WORLD));
     Vec y;
     PetscCall(VecGetSubVector(v, is, &y));
     PetscCall(VecView(y, PETSC_VIEWER_STDOUT_WORLD));
+    PetscCall(VecRestoreSubVector(v, is, &y));
+
     
     PetscCall(VecScatterDestroy(&scatter));
 
