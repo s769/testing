@@ -36,6 +36,7 @@ int main(int argc, char **argv) {
         for (int i = 0; i < nm_local; i++) {
             for (int j = 0; j < nt; j++) {
                 a[i*nt + j] = world_rank*(nm/proc_cols)*nt + i*nt + j + 1;
+                printf("i * nt + j = %d\n", i*nt + j);
             }
         }
         cudaMalloc(&d_a, nm_local * nt * sizeof(double));
