@@ -91,6 +91,8 @@ int main(int argc, char **argv) {
     PetscCall(VecSetType(v2, VECCUDA));
     PetscCall(VecSetUp(v2));
 
+    PetscCall(VecView(v2, PETSC_VIEWER_STDOUT_WORLD));
+
     int* idx = new int[nt_local * nm];
 
     for (int i = 0; i < nt_local; i++)
