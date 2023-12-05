@@ -101,8 +101,14 @@ int main(int argc, char **argv) {
         }
     }
 
+    IS is2;
+    int rstart, rend;
+    PetscCall(VecGetOwnershipRange(v2, &rstart, &rend));
+    PetscCall(ISCreateStride(PETSC_COMM_WORLD, rend - rstart, rstart, 1, &is2));
+
+
     PetscCall(ISCreateGeneral(PETSC_COMM_WORLD, nt_local * nm, idx, PETSC_USE_POINTER, &is));
-    PetscCall(VecScatterCreate(v, is, v2, is, &scatter));
+    PetscCall(VecScatterCreate(v, is, v2, is2, &scatter));
     PetscCall(VecScatterBegin(scatter, v, v2, INSERT_VALUES, SCATTER_FORWARD));
     PetscCall(VecScatterEnd(scatter, v, v2, INSERT_VALUES, SCATTER_FORWARD));
 
@@ -119,6 +125,7 @@ int main(int argc, char **argv) {
     PetscCall(PetscLayoutDestroy(&layout));
     PetscCall(PetscLayoutDestroy(&layout2));
     PetscCall(ISDestroy(&is));
+    PetscCall(ISDestroy(&is2));
     delete[] idx;
     
 
