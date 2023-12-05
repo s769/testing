@@ -81,10 +81,9 @@ int main(int argc, char **argv) {
     int nt_local = (world_rank < nt % num_ranks) ? nt / num_ranks + 1 : nt / num_ranks;
     int before_me2 = (world_rank < nt % num_ranks) ? (nt/num_ranks + 1) * world_rank : (nt/num_ranks + 1) * (nt % num_ranks) + (nt/num_ranks) * (world_rank - nt % num_ranks);
 
-    if (col_rank == 0)
-        PetscCall(PetscLayoutSetLocalSize(layout2, nt_local * nm));
-    else
-        PetscCall(PetscLayoutSetLocalSize(layout2, 0));
+
+    PetscCall(PetscLayoutSetLocalSize(layout2, nt_local * nm));
+
     
     PetscCall(PetscLayoutSetUp(layout2));
     PetscCall(VecCreate(PETSC_COMM_WORLD, &v2));
