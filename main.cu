@@ -11,11 +11,11 @@ int main(int argc, char **argv) {
     PetscFunctionBeginUser;
     PetscCall(PetscInitialize(&argc, &argv, NULL, NULL));
     PetscCall(PetscOptionsGetInt(NULL, NULL, "-proc_rows", &proc_rows, &prflag));
-    PetscCall(PetscCheck(prflag, PETSC_COMM_WORLD, PETSC_ERR_USER, "Must specify -proc_rows"));
+    // PetscCall(PetscCheck(prflag, PETSC_COMM_WORLD, PETSC_ERR_USER, "Must specify -proc_rows"));
     PetscCall(PetscOptionsGetInt(NULL, NULL, "-proc_cols", &proc_cols, &pcflag));
-    PetscCall(PetscCheck(pcflag,  PETSC_COMM_WORLD, PETSC_ERR_USER, "Must specify -proc_cols"));
+    // PetscCall(PetscCheck(pcflag,  PETSC_COMM_WORLD, PETSC_ERR_USER, "Must specify -proc_cols"));
     PetscCall(PetscOptionsGetInt(NULL, NULL, "-n", &n, &nflag));
-    PetscCall(PetscCheck(nflag,  PETSC_COMM_WORLD, PETSC_ERR_USER, "Must specify -n"));
+    // PetscCall(PetscCheck(nflag,  PETSC_COMM_WORLD, PETSC_ERR_USER, "Must specify -n"));
 
 
     PetscCall(MPI_Comm_rank(MPI_COMM_WORLD, &world_rank));
