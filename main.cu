@@ -99,16 +99,26 @@ int main(int argc, char **argv) {
         for (int j = 0; j < nm; j++)
         {
             idx[i*nm + j] = before_me2 + i + j*nt;
-            printf("world_rank: %d, idx: %d\n", world_rank, idx[i*nm + j]);
         }
     }
 
+    PetscCall(ISCreateGeneral(PETSC_COMM_WORLD, nt * nm, idx, PETSC_COPY_VALUES, &is));
+    PetscCall(VecScatterCreate(v, is, v2, NULL, &scatter));
+    PetscCall(VecScatterBegin(scatter, v, v2, INSERT_VALUES, SCATTER_FORWARD));
+    PetscCall(VecScatterEnd(scatter, v, v2, INSERT_VALUES, SCATTER_FORWARD));
+    PetscCall(VecScatterDestroy(&scatter));
+
+    PetscCall(VecView(v2, PETSC_VIEWER_STDOUT_WORLD));
 
 
-    delete[] idx;
+
 
     PetscCall(VecDestroy(&v));
+    PetscCall(VecDestroy(&v2));
     PetscCall(PetscLayoutDestroy(&layout));
+    PetscCall(PetscLayoutDestroy(&layout2));
+    PetscCall(ISDestroy(&is));
+    
 
 
 
