@@ -24,14 +24,15 @@ int main(int argc, char **argv) {
     int row_rank = world_rank / proc_cols;
     int col_rank = world_rank % proc_cols;
     double *a, *d_a;
-    printf("row_rank: %d, col_rank: %d, n: %d\n", row_rank, col_rank, n);
+    int n_local = (col_rank == proc_cols - 1) ? n / proc_cols + n % proc_cols : n / proc_cols;
+
 
     Vec v;
     if (row_rank == 0)
     {
         a = (double *) malloc(n * sizeof(double));
-        for (int i = 0; i < n; i++) {
-            a[i] = world_rank*n + i + 1;
+        for (int i = 0; i < n_local; i++) {
+            a[i] = world_rank*(n/proc_cols) + i + 1;
         }
         cudaMalloc(&d_a, n * sizeof(double));
         cudaMemcpy(d_a, a, n * sizeof(double), cudaMemcpyHostToDevice);
@@ -44,7 +45,7 @@ int main(int argc, char **argv) {
     PetscCall(PetscLayoutCreate(PETSC_COMM_WORLD, &layout));
     PetscCall(PetscLayoutSetBlockSize(layout, 1));
     if (row_rank == 0)
-        PetscCall(PetscLayoutSetLocalSize(layout, n/proc_cols));
+        PetscCall(PetscLayoutSetLocalSize(layout, n_local));
     else
         PetscCall(PetscLayoutSetLocalSize(layout, 0));
     PetscCall(PetscLayoutSetUp(layout));
