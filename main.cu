@@ -107,6 +107,7 @@ int main(int argc, char **argv) {
 
 
     PetscCall(ISCreateGeneral(PETSC_COMM_WORLD, nt_local * nm, idx, PETSC_USE_POINTER, &is));
+    PetscCall(ISView(is, PETSC_VIEWER_STDOUT_WORLD));
     PetscCall(VecScatterCreate(v, is, v2, NULL, &scatter));
     // PetscCall(VecScatterBegin(scatter, v, v2, INSERT_VALUES, SCATTER_FORWARD));
     // PetscCall(VecScatterEnd(scatter, v, v2, INSERT_VALUES, SCATTER_FORWARD));
