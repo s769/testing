@@ -6,7 +6,7 @@ int main(int argc, char **argv) {
     int world_rank, num_ranks;
     int proc_rows, proc_cols;
     bool prflag, pcflag;
-    int n;
+    int nt, nm;
     bool nflag;
     PetscFunctionBeginUser;
     PetscCall(PetscInitialize(&argc, &argv, NULL, NULL));
@@ -14,7 +14,9 @@ int main(int argc, char **argv) {
     // PetscCall(PetscCheck(prflag, PETSC_COMM_WORLD, PETSC_ERR_USER, "Must specify -proc_rows"));
     PetscCall(PetscOptionsGetInt(NULL, NULL, "-proc_cols", &proc_cols, NULL));
     // PetscCall(PetscCheck(pcflag,  PETSC_COMM_WORLD, PETSC_ERR_USER, "Must specify -proc_cols"));
-    PetscCall(PetscOptionsGetInt(NULL, NULL, "-n", &n, NULL));
+    PetscCall(PetscOptionsGetInt(NULL, NULL, "-nt", &nt, NULL));
+    PetscCall(PetscOptionsGetInt(NULL, NULL, "-nm", &nt, NULL));
+
     // PetscCall(PetscCheck(nflag,  PETSC_COMM_WORLD, PETSC_ERR_USER, "Must specify -n"));
 
 
@@ -24,18 +26,18 @@ int main(int argc, char **argv) {
     int row_rank = world_rank / proc_cols;
     int col_rank = world_rank % proc_cols;
     double *a, *d_a;
-    int n_local = (col_rank == proc_cols - 1) ? n / proc_cols + n % proc_cols : n / proc_cols;
+    int nm_local = (col_rank == proc_cols - 1) ? nm / proc_cols + nm % proc_cols : nm / proc_cols;
 
 
     Vec v;
     if (row_rank == 0)
     {
-        a = (double *) malloc(n * sizeof(double));
-        for (int i = 0; i < n_local; i++) {
-            a[i] = world_rank*(n/proc_cols) + i + 1;
+        a = (double *) malloc(nm_local * nt * sizeof(double));
+        for (int i = 0; i < nm_local; i++) {
+            a[i] = world_rank*(nm/proc_cols)*nt + i + 1;
         }
-        cudaMalloc(&d_a, n * sizeof(double));
-        cudaMemcpy(d_a, a, n * sizeof(double), cudaMemcpyHostToDevice);
+        cudaMalloc(&d_a, nm_local * nt * sizeof(double));
+        cudaMemcpy(d_a, a, nm_local * nt * sizeof(double), cudaMemcpyHostToDevice);
         free(a);
 
     }
@@ -45,7 +47,7 @@ int main(int argc, char **argv) {
     PetscCall(PetscLayoutCreate(PETSC_COMM_WORLD, &layout));
     PetscCall(PetscLayoutSetBlockSize(layout, 1));
     if (row_rank == 0)
-        PetscCall(PetscLayoutSetLocalSize(layout, n_local));
+        PetscCall(PetscLayoutSetLocalSize(layout, nm_local));
     else
         PetscCall(PetscLayoutSetLocalSize(layout, 0));
     PetscCall(PetscLayoutSetUp(layout));
@@ -65,6 +67,16 @@ int main(int argc, char **argv) {
 
 
     PetscCall(VecView(v, PETSC_VIEWER_STDOUT_WORLD));
+
+    // VecScatter scatter;
+    // IS is;
+    
+    // PetscLayout layout2;
+    // PetscCall(PetscLayoutCreate(PETSC_COMM_WORLD, &layout2));
+    // PetscCall(PetscLayoutSetBlockSize(layout2, 1));
+    // nm_local2 = 
+    
+
 
 
 
