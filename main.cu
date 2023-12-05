@@ -115,8 +115,10 @@ int main(int argc, char **argv) {
     // PetscCall(VecScatterEnd(scatter, v, v2, INSERT_VALUES, SCATTER_FORWARD));
 
 
-    PetscCall(VecView(v, PETSC_VIEWER_STDOUT_WORLD));
-    
+    // PetscCall(VecView(v, PETSC_VIEWER_STDOUT_WORLD));
+    Vec y;
+    PetscCall(VecGetSubVector(v, is, &y));
+    PetscCall(VecView(y, PETSC_VIEWER_STDOUT_WORLD));
     
     PetscCall(VecScatterDestroy(&scatter));
 
@@ -124,6 +126,7 @@ int main(int argc, char **argv) {
 
     PetscCall(VecDestroy(&v));
     PetscCall(VecDestroy(&v2));
+    PetscCall(VecDestroy(&y));
     PetscCall(PetscLayoutDestroy(&layout));
     PetscCall(PetscLayoutDestroy(&layout2));
     PetscCall(ISDestroy(&is));
