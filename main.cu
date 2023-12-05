@@ -92,7 +92,8 @@ int main(int argc, char **argv) {
     PetscCall(VecSetType(v2, VECCUDA));
     PetscCall(VecSetUp(v2));
 
-    int[] idx = new int[nt_local * nm];
+    int* idx = new int[nt_local * nm];
+
     for (int i = 0; i < nt_local; i++)
     {
         for (int j = 0; j < nm; j++)
