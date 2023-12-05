@@ -24,6 +24,7 @@ int main(int argc, char **argv) {
     int row_rank = world_rank / proc_cols;
     int col_rank = world_rank % proc_cols;
     double *a, *d_a;
+    printf("row_rank: %d, col_rank: %d, n: %d\n", row_rank, col_rank, n);
 
     Vec v;
     if (row_rank == 0)
