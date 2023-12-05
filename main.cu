@@ -55,9 +55,12 @@ int main(int argc, char **argv) {
     {
         PetscCall(VecCUDAReplaceArray(v, d_a));
     }
+    else
+    {
+        PetscCall(VecCUDAReplaceArray(v, NULL));
+    }
     PetscCall(VecSetUp(v));
 
-    printf("hello from rank %d\n", world_rank);
 
     PetscCall(VecView(v, PETSC_VIEWER_STDOUT_WORLD));
 
@@ -70,6 +73,9 @@ int main(int argc, char **argv) {
 
     PetscCall(VecDestroy(&v));
     PetscCall(PetscLayoutDestroy(&layout));
+
+
+
 
 
     
