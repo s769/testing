@@ -15,7 +15,7 @@ int main(int argc, char **argv) {
     PetscCall(PetscOptionsGetInt(NULL, NULL, "-proc_cols", &proc_cols, NULL));
     // PetscCall(PetscCheck(pcflag,  PETSC_COMM_WORLD, PETSC_ERR_USER, "Must specify -proc_cols"));
     PetscCall(PetscOptionsGetInt(NULL, NULL, "-nt", &nt, NULL));
-    PetscCall(PetscOptionsGetInt(NULL, NULL, "-nm", &nt, NULL));
+    PetscCall(PetscOptionsGetInt(NULL, NULL, "-nm", &nm, NULL));
 
     // PetscCall(PetscCheck(nflag,  PETSC_COMM_WORLD, PETSC_ERR_USER, "Must specify -n"));
 
