@@ -30,7 +30,7 @@ int main(int argc, char **argv) {
     {
         a = (double *) malloc(n * sizeof(double));
         for (int i = 0; i < n; i++) {
-            a[i] = i;
+            a[i] = world_rank + i + 1;
         }
         cudaMalloc(&d_a, n * sizeof(double));
         cudaMemcpy(d_a, a, n * sizeof(double), cudaMemcpyHostToDevice);
