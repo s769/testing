@@ -26,8 +26,9 @@ int main(int argc, char **argv) {
     int row_rank = world_rank / proc_cols;
     int col_rank = world_rank % proc_cols;
     double *a, *d_a;
-    int nm_local = (col_rank == proc_cols - 1) ? nm / proc_cols + nm % proc_cols : nm / proc_cols;
+    int nm_local = (col_rank < nm % proc_cols) ? nm / proc_cols + 1 : nm / proc_cols;
 
+    int before_me = (col_rank < nm % proc_cols) ? (nm/proc_cols + 1) * col_rank : (nm/proc_cols + 1) * nm % proc_cols + (nm/proc_cols) * (col_rank - nm % proc_cols);
 
     Vec v;
     if (row_rank == 0)
@@ -35,7 +36,7 @@ int main(int argc, char **argv) {
         a = (double *) malloc(nm_local * nt * sizeof(double));
         for (int i = 0; i < nm_local; i++) {
             for (int j = 0; j < nt; j++) {
-                a[i*nt + j] = world_rank*(nm/proc_cols)*nt + i*nt + j + 1;
+                a[i*nt + j] = before_me*nt + i*nt + j + 1;
             }
         }
         cudaMalloc(&d_a, nm_local * nt * sizeof(double));
@@ -76,9 +77,27 @@ int main(int argc, char **argv) {
     // PetscLayout layout2;
     // PetscCall(PetscLayoutCreate(PETSC_COMM_WORLD, &layout2));
     // PetscCall(PetscLayoutSetBlockSize(layout2, 1));
-    // nm_local2 = 
-    
+    // nt_local = (world_rank == num_ranks - 1) ? nt / num_ranks + nt % num_ranks : nt / num_ranks;
 
+    // if (col_rank == 0)
+    //     PetscCall(PetscLayoutSetLocalSize(layout2, nt_local * nm));
+    // else
+    //     PetscCall(PetscLayoutSetLocalSize(layout2, 0));
+    
+    // PetscCall(PetscLayoutSetUp(layout2));
+    // PetscCall(VecCreate(PETSC_COMM_WORLD, &v2));
+    // PetscCall(VecSetLayout(v2, layout2));
+    // PetscCall(VecSetType(v2, VECCUDA));
+    // PetscCall(VecSetUp(v2));
+
+    // int[] idx = new int[nt_local * nm];
+    // for (int i = 0; i < nt_local; i++)
+    // {
+    //     for (int j = 0; j < nm; j++)
+    //     {
+    //         idx[i*nm + j] = 
+    //     }
+    // }
 
 
 
