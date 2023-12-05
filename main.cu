@@ -71,37 +71,39 @@ int main(int argc, char **argv) {
 
     PetscCall(VecView(v, PETSC_VIEWER_STDOUT_WORLD));
 
-    // VecScatter scatter;
-    // IS is;
+    VecScatter scatter;
+    IS is;
     
-    // PetscLayout layout2;
-    // PetscCall(PetscLayoutCreate(PETSC_COMM_WORLD, &layout2));
-    // PetscCall(PetscLayoutSetBlockSize(layout2, 1));
-    // nt_local = (world_rank == num_ranks - 1) ? nt / num_ranks + nt % num_ranks : nt / num_ranks;
+    PetscLayout layout2;
+    PetscCall(PetscLayoutCreate(PETSC_COMM_WORLD, &layout2));
+    PetscCall(PetscLayoutSetBlockSize(layout2, 1));
+    int nt_local = (world_rank < nt % num_ranks) ? nt / num_ranks + 1 : nt / num_ranks;
+    int before_me2 = (world_rank < nt % num_ranks) ? (nt/num_ranks + 1) * world_rank : (nt/num_ranks + 1) * nt % num_ranks + (nt/num_ranks) * (world_rank - nt % num_ranks);
 
-    // if (col_rank == 0)
-    //     PetscCall(PetscLayoutSetLocalSize(layout2, nt_local * nm));
-    // else
-    //     PetscCall(PetscLayoutSetLocalSize(layout2, 0));
+    if (col_rank == 0)
+        PetscCall(PetscLayoutSetLocalSize(layout2, nt_local * nm));
+    else
+        PetscCall(PetscLayoutSetLocalSize(layout2, 0));
     
-    // PetscCall(PetscLayoutSetUp(layout2));
-    // PetscCall(VecCreate(PETSC_COMM_WORLD, &v2));
-    // PetscCall(VecSetLayout(v2, layout2));
-    // PetscCall(VecSetType(v2, VECCUDA));
-    // PetscCall(VecSetUp(v2));
+    PetscCall(PetscLayoutSetUp(layout2));
+    PetscCall(VecCreate(PETSC_COMM_WORLD, &v2));
+    PetscCall(VecSetLayout(v2, layout2));
+    PetscCall(VecSetType(v2, VECCUDA));
+    PetscCall(VecSetUp(v2));
 
-    // int[] idx = new int[nt_local * nm];
-    // for (int i = 0; i < nt_local; i++)
-    // {
-    //     for (int j = 0; j < nm; j++)
-    //     {
-    //         idx[i*nm + j] = 
-    //     }
-    // }
+    int[] idx = new int[nt_local * nm];
+    for (int i = 0; i < nt_local; i++)
+    {
+        for (int j = 0; j < nm; j++)
+        {
+            idx[i*nm + j] = before_me2 + i + j*nt;
+            print("world_rank: %d, idx: %d\n", world_rank, idx[i*nm + j]);
+        }
+    }
 
 
 
-
+    delete[] idx;
 
     PetscCall(VecDestroy(&v));
     PetscCall(PetscLayoutDestroy(&layout));
