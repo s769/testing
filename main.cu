@@ -113,7 +113,7 @@ int main(int argc, char **argv) {
     PetscCall(VecScatterEnd(scatter, v, v2, INSERT_VALUES, SCATTER_FORWARD));
 
 
-    PetscCall(VecView(v2, PETSC_VIEWER_STDOUT_WORLD));
+    PetscCall(VecView(v, PETSC_VIEWER_STDOUT_WORLD));
     
     
     PetscCall(VecScatterDestroy(&scatter));
