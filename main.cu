@@ -36,8 +36,6 @@ int main(int argc, char **argv) {
         for (int i = 0; i < nm_local; i++) {
             for (int j = 0; j < nt; j++) {
                 a[i*nt + j] = world_rank*(nm/proc_cols)*nt + i*nt + j + 1;
-                printf("i * nt + j = %d, world_rank*(nm/proc_cols)*nt + i*nt + j + 1: %d\n", i*nt + j, world_rank*(nm/proc_cols)*nt + i*nt + j + 1);
-        
             }
         }
         cudaMalloc(&d_a, nm_local * nt * sizeof(double));
@@ -51,7 +49,7 @@ int main(int argc, char **argv) {
     PetscCall(PetscLayoutCreate(PETSC_COMM_WORLD, &layout));
     PetscCall(PetscLayoutSetBlockSize(layout, 1));
     if (row_rank == 0)
-        PetscCall(PetscLayoutSetLocalSize(layout, nm_local));
+        PetscCall(PetscLayoutSetLocalSize(layout, nm_local * nt));
     else
         PetscCall(PetscLayoutSetLocalSize(layout, 0));
     PetscCall(PetscLayoutSetUp(layout));
