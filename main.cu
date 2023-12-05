@@ -99,10 +99,10 @@ int main(int argc, char **argv) {
     {
         for (int j = 0; j < nm; j++)
         {
-            idx[i*nm + j] =  i + j*nt;
+            idx[i*nm + j] =  before_me2 + i + j*nt;
         }
     }
-// before_me2 +
+// 
 
 
 
