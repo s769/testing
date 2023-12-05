@@ -36,7 +36,7 @@ int main(int argc, char **argv) {
         a = (double *) malloc(nm_local * nt * sizeof(double));
         for (int i = 0; i < nm_local; i++) {
             for (int j = 0; j < nt; j++) {
-                a[i*nt + j] = before_me*nt + i*nt + j + 1;
+                a[i*nt + j] = before_me*nt + i*nt + j;
             }
         }
         cudaMalloc(&d_a, nm_local * nt * sizeof(double));
