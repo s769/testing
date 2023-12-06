@@ -158,7 +158,7 @@ int main(int argc, char **argv)
   PetscCall(VecSetType(x, VECCUDA));
   PetscCall(VecSetFromOptions(x));
   PetscCall(PetscObjectSetName((PetscObject)x, "Vec X"));
-  n = (rank < 4) ? 9 : 0;
+  n = (rank < 3) ? 12 : 0;
   PetscCall(VecSetSizes(x, n, PETSC_DECIDE));
 
   PetscCall(VecGetOwnershipRange(x, &rstart, &rend));
