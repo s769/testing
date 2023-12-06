@@ -165,11 +165,13 @@ int main(int argc, char **argv)
   PetscCall(VecAssemblyBegin(x));
   PetscCall(VecAssemblyEnd(x));
   PetscCall(VecGetSize(x, &N));
+  PetscCall(VecSetType(x, VECCUDA));
 
   PetscCall(VecCreate(PETSC_COMM_WORLD, &y));
   PetscCall(VecSetFromOptions(y));
   PetscCall(PetscObjectSetName((PetscObject)y, "Vec Y"));
   PetscCall(VecSetSizes(y, PETSC_DECIDE, N));
+  PetscCall(VecSetType(y, VECCUDA));
 
   PetscCall(VecGetOwnershipRange(y, &rstart, &rend));
   PetscCall(PetscMalloc1(rend - rstart, &indices));
