@@ -1,5 +1,16 @@
 #include "shared.cuh"
 
+/* *
+*
+* TODO for real code:
+* 1. fix calculation of local sizes
+* 2. try using VecSetSizes instead of VecSetLayout
+* 3. call VecAssemblyBegin and VecAssemblyEnd 
+* 4. move priorsolve to a separate function
+* 5. add reindexed scatter
+* 6. batched priorsolve
+*/
+
 int main(int argc, char **argv) {
 
 
@@ -71,7 +82,7 @@ int main(int argc, char **argv) {
     {
         PetscCall(VecCUDAReplaceArray(v, NULL));
     }
-    // PetscCall(VecSetUp(v));
+    PetscCall(VecSetUp(v));
     int rstart, rend;
 
     // PetscCall(VecGetOwnershipRange(v, &rstart, &rend));
@@ -133,6 +144,13 @@ int main(int argc, char **argv) {
 
     PetscCall(VecView(v2, PETSC_VIEWER_STDOUT_WORLD));
 
+    Vec v3;
+    PetscCall(VecDuplicate(v, &v3));
+    PetscCall(VecScatterBegin(scatter, v2, v3, INSERT_VALUES, SCATTER_REVERSE));
+    PetscCall(VecScatterEnd(scatter, v2, v3, INSERT_VALUES, SCATTER_REVERSE));
+    PetscCall(VecView(v3, PETSC_VIEWER_STDOUT_WORLD));
+
+
 
     
     PetscCall(VecScatterDestroy(&scatter));
@@ -141,6 +159,7 @@ int main(int argc, char **argv) {
 
     PetscCall(VecDestroy(&v));
     PetscCall(VecDestroy(&v2));
+    PetscCall(VecDestroy(&v3));
     // PetscCall(PetscLayoutDestroy(&layout));
     // PetscCall(PetscLayoutDestroy(&layout2));
     PetscCall(ISDestroy(&is));
@@ -215,3 +234,6 @@ int main(int argc, char **argv) {
 //   PetscCall(PetscFinalize());
 //   return 0;
 // }
+
+
+
