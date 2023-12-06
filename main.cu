@@ -109,16 +109,13 @@ int main(int argc, char **argv) {
     PetscCall(ISCreateGeneral(PETSC_COMM_WORLD, nt_local * nm, idx, PETSC_USE_POINTER, &is));
     PetscCall(ISView(is, PETSC_VIEWER_STDOUT_WORLD));
     PetscCall(VecScatterCreate(v, is, v2, NULL, &scatter));
-    // PetscCall(VecScatterBegin(scatter, v, v2, INSERT_VALUES, SCATTER_FORWARD));
-    // PetscCall(VecScatterEnd(scatter, v, v2, INSERT_VALUES, SCATTER_FORWARD));
+    PetscCall(VecScatterBegin(scatter, v, v2, INSERT_VALUES, SCATTER_FORWARD));
+    PetscCall(VecScatterEnd(scatter, v, v2, INSERT_VALUES, SCATTER_FORWARD));
 
 
 
-    // PetscCall(VecView(v, PETSC_VIEWER_STDOUT_WORLD));
-    Vec y;
-    PetscCall(VecGetSubVector(v, is, &y));
-    PetscCall(VecView(y, PETSC_VIEWER_STDOUT_WORLD));
-    PetscCall(VecRestoreSubVector(v, is, &y));
+    PetscCall(VecView(v2, PETSC_VIEWER_STDOUT_WORLD));
+
 
     
     PetscCall(VecScatterDestroy(&scatter));
@@ -127,11 +124,9 @@ int main(int argc, char **argv) {
 
     PetscCall(VecDestroy(&v));
     PetscCall(VecDestroy(&v2));
-    PetscCall(VecDestroy(&y));
     PetscCall(PetscLayoutDestroy(&layout));
     PetscCall(PetscLayoutDestroy(&layout2));
     PetscCall(ISDestroy(&is));
-    // PetscCall(ISDestroy(&is2));
     delete[] idx;
     
 
