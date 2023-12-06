@@ -108,10 +108,10 @@ int main(int argc, char **argv) {
     {
         for (int j = 0; j < nm; j++)
         {
-            idx[i*nm + j] =  before_me2 + i + j*nt;
+            indices[i*nm + j] =  before_me2 + i + j*nt;
         }
     }
-    PetscCall(ISCreateGeneral(PETSC_COMM_WORLD, rend - rstart, indices, PETSC_OWN_POINTER, &indices));
+    PetscCall(ISCreateGeneral(PETSC_COMM_WORLD, rend - rstart, indices, PETSC_OWN_POINTER, &is));
 // 
 
 
@@ -137,7 +137,7 @@ int main(int argc, char **argv) {
     // PetscCall(PetscLayoutDestroy(&layout));
     // PetscCall(PetscLayoutDestroy(&layout2));
     PetscCall(ISDestroy(&is));
-    delete[] idx;
+    // delete[] idx;
     
 
 
