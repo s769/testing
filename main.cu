@@ -65,10 +65,10 @@ int main(int argc, char **argv) {
     {
         PetscCall(VecCUDAReplaceArray(v, d_a));
     }
-    else
-    {
-        PetscCall(VecCUDAReplaceArray(v, NULL));
-    }
+    // else
+    // {
+    //     PetscCall(VecCUDAReplaceArray(v, NULL));
+    // }
     PetscCall(VecSetUp(v));
 
 
