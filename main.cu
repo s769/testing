@@ -27,7 +27,6 @@ int main(int argc, char **argv) {
     int col_rank = world_rank % proc_cols;
     double *a, *d_a;
     int nm_local = (col_rank < nm % proc_cols) ? nm / proc_cols + 1 : nm / proc_cols;
-    printf("world_rank = %d, row_rank = %d, col_rank = %d, nm_local = %d\n", world_rank, row_rank, col_rank, nm_local);
 
     int before_me = (col_rank < nm % proc_cols) ? (nm/proc_cols + 1) * col_rank : (nm/proc_cols + 1) * (nm % proc_cols) + (nm/proc_cols) * (col_rank - nm % proc_cols);
 
