@@ -31,19 +31,19 @@ int main(int argc, char **argv) {
     int before_me = (col_rank < nm % proc_cols) ? (nm/proc_cols + 1) * col_rank : (nm/proc_cols + 1) * (nm % proc_cols) + (nm/proc_cols) * (col_rank - nm % proc_cols);
 
     Vec v;
-    if (row_rank == 0)
-    {
-        a = (double *) malloc(nm_local * nt * sizeof(double));
-        for (int i = 0; i < nm_local; i++) {
-            for (int j = 0; j < nt; j++) {
-                a[i*nt + j] = before_me*nt + i*nt + j;
-            }
-        }
-        cudaMalloc(&d_a, nm_local * nt * sizeof(double));
-        cudaMemcpy(d_a, a, nm_local * nt * sizeof(double), cudaMemcpyHostToDevice);
-        free(a);
+    // if (row_rank == 0)
+    // {
+    //     a = (double *) malloc(nm_local * nt * sizeof(double));
+    //     for (int i = 0; i < nm_local; i++) {
+    //         for (int j = 0; j < nt; j++) {
+    //             a[i*nt + j] = before_me*nt + i*nt + j;
+    //         }
+    //     }
+    //     cudaMalloc(&d_a, nm_local * nt * sizeof(double));
+    //     cudaMemcpy(d_a, a, nm_local * nt * sizeof(double), cudaMemcpyHostToDevice);
+    //     free(a);
 
-    }
+    // }
 
     PetscCall(VecCreate(PETSC_COMM_WORLD, &v));
     // PetscLayout layout;
@@ -61,15 +61,21 @@ int main(int argc, char **argv) {
     PetscCall(VecSetType(v, VECCUDA));
 
 
-    if (row_rank == 0)
-    {
-        PetscCall(VecCUDAReplaceArray(v, d_a));
-    }
+    // if (row_rank == 0)
+    // {
+    //     PetscCall(VecCUDAReplaceArray(v, d_a));
+    // }
     // else
     // {
     //     PetscCall(VecCUDAReplaceArray(v, NULL));
     // }
-    PetscCall(VecSetUp(v));
+    // PetscCall(VecSetUp(v));
+    int rstart, rend;
+
+    PetscCall(VecGetOwnershipRange(v, &rstart, &rend));
+    for (int i = rstart; i < rend; i++) PetscCall(VecSetValue(v, i, (PetscScalar)i, INSERT_VALUES));
+    PetscCall(VecAssemblyBegin(v));
+    PetscCall(VecAssemblyEnd(v));
 
 
     PetscCall(VecView(v, PETSC_VIEWER_STDOUT_WORLD));
@@ -98,7 +104,6 @@ int main(int argc, char **argv) {
 
     PetscCall(VecView(v2, PETSC_VIEWER_STDOUT_WORLD));
     int * indices;
-    int rstart, rend;
     PetscCall(VecGetOwnershipRange(v2, &rstart, &rend));
     PetscCall(PetscMalloc1(rend - rstart, &indices));
 
