@@ -109,7 +109,9 @@ int main(int argc, char **argv) {
     // PetscCall(VecSetLayout(v2, layout2));
     // PetscCall(VecSetType(v2, VECCUDA));
     PetscCall(VecSetSizes(v2, nt_local * nm, PETSC_DECIDE));
+    PetscCall(VecSetType(v, VECCUDA));
     PetscCall(VecSetUp(v2));
+
 
     PetscCall(VecView(v2, PETSC_VIEWER_STDOUT_WORLD));
     int * indices;
