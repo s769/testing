@@ -162,6 +162,8 @@ int main(int argc, char **argv) {
 
     PetscCall(VecCUDARestoreArray(v2, &arr));
 
+    PetscCall(VecView(v2, PETSC_VIEWER_STDOUT_WORLD));
+
 
     PetscCall(MatDenseCUDARestoreArray(C, &arr));
 
