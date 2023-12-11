@@ -109,7 +109,7 @@ int main(int argc, char **argv) {
     // PetscCall(VecSetLayout(v2, layout2));
     // PetscCall(VecSetType(v2, VECCUDA));
     PetscCall(VecSetSizes(v2, nt_local * nm, PETSC_DECIDE));
-    PetscCall(VecSetType(v, VECCUDA));
+    PetscCall(VecSetType(v2, VECCUDA));
     PetscCall(VecSetUp(v2));
 
 
