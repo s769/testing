@@ -160,12 +160,12 @@ int main(int argc, char **argv) {
 
     PetscCall(MatDenseCUDAGetArray(C, &arr));
 
-    PetscCall(VecCUDARestoreArray(v2, &arr));
+    PetscCall(VecCUDAPlaceArray(v2, arr));
 
     PetscCall(VecView(v2, PETSC_VIEWER_STDOUT_WORLD));
 
 
-    PetscCall(MatDenseCUDARestoreArray(C, &arr));
+
 
 
 
@@ -177,6 +177,8 @@ int main(int argc, char **argv) {
     PetscCall(VecDuplicate(v, &v3));
     PetscCall(VecScatterBegin(scatter, v2, v3, INSERT_VALUES, SCATTER_REVERSE));
     PetscCall(VecScatterEnd(scatter, v2, v3, INSERT_VALUES, SCATTER_REVERSE));
+    PetscCall(MatDenseCUDARestoreArray(C, &arr));
+    PetscCall(VecCUDARestoreArray(v2, &arr));
     PetscCall(VecView(v3, PETSC_VIEWER_STDOUT_WORLD));
 
 
