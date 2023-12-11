@@ -3,10 +3,6 @@
 /* *
 *
 * TODO for real code:
-* 1. fix calculation of local sizes
-* 2. try using VecSetSizes instead of VecSetLayout
-* 3. call VecAssemblyBegin and VecAssemblyEnd 
-* 4. move priorsolve to a separate function
 * 5. add reindexed scatter
 * 6. batched priorsolve
 */
@@ -31,8 +27,8 @@ int main(int argc, char **argv) {
     // PetscCall(PetscCheck(nflag,  PETSC_COMM_WORLD, PETSC_ERR_USER, "Must specify -n"));
 
 
-    PetscCall(MPI_Comm_rank(MPI_COMM_WORLD, &world_rank));
-    PetscCall(MPI_Comm_size(MPI_COMM_WORLD, &num_ranks));
+    PetscCallMPI(MPI_Comm_rank(MPI_COMM_WORLD, &world_rank));
+    PetscCallMPI(MPI_Comm_size(MPI_COMM_WORLD, &num_ranks));
 
     int row_rank = world_rank / proc_cols;
     int col_rank = world_rank % proc_cols;
