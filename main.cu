@@ -159,7 +159,7 @@ int main(int argc, char **argv) {
 
 
     PetscCall(MatDenseCUDARestoreArray(C, &arr));
-    
+
 
 
 
@@ -185,6 +185,8 @@ int main(int argc, char **argv) {
     // PetscCall(PetscLayoutDestroy(&layout));
     // PetscCall(PetscLayoutDestroy(&layout2));
     PetscCall(ISDestroy(&is));
+    PetscCall(MatDestroy(&B));
+    PetscCall(MatDestroy(&C));
     // delete[] idx;
     
 
