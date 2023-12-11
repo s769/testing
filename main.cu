@@ -143,7 +143,7 @@ int main(int argc, char **argv) {
     PetscCall(VecView(v2, PETSC_VIEWER_STDOUT_WORLD));
 
     Mat B, C;
-    PetscCall(MatCreateDenseCUDA(PETSC_COMM_SELF, nt, nm_local, nt, nm_local, NULL, &B));
+    PetscCall(MatCreateDenseCUDA(PETSC_COMM_SELF, nm, nt_local, nm,nt_local, NULL, &B));
     PetscCall(MatSetFromOptions(B));
     PetscCall(MatSetUp(B));
     PetscCall(MatDuplicate(B, MAT_DO_NOT_COPY_VALUES, &C));
