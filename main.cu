@@ -155,7 +155,7 @@ int main(int argc, char **argv) {
 
     PetscCall(MatAXPY(C, 2.0, B, SAME_NONZERO_PATTERN));
 
-    PetscCall(MatView(C, PETSC_VIEWER_STDOUT_WORLD));
+    PetscCall(MatView(C, PETSC_VIEWER_STDOUT_SELF));
 
     PetscCall(MatDenseCUDAGetArray(C, &arr));
 
