@@ -155,7 +155,8 @@ int main(int argc, char **argv) {
 
     PetscCall(MatAXPY(C, 2.0, B, SAME_NONZERO_PATTERN));
 
-    PetscCall(MatView(C, PETSC_VIEWER_STDOUT_SELF));
+    if (world_rank == 9)
+        PetscCall(MatView(C, PETSC_VIEWER_STDOUT_SELF));
 
     PetscCall(MatDenseCUDAGetArray(C, &arr));
 
