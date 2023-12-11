@@ -140,6 +140,32 @@ int main(int argc, char **argv) {
 
     PetscCall(VecView(v2, PETSC_VIEWER_STDOUT_WORLD));
 
+    Mat B, C;
+    PetscCall(MatCreateDenseCUDA(PETSC_COMM_SELF, nt, nm_local, nt, nm_local, NULL, &B));
+    PetscCall(MatSetFromOptions(B));
+    PetscCall(MatSetUp(B));
+    PetscCall(MatDuplicate(B, MAT_DO_NOT_COPY_VALUES, &C));
+
+
+    double *arr;
+    PetscCall(VecCUDAGetArray(v2, &arr));
+    PetscCall(MatDenseCUDAPlaceArray(B, arr));
+
+    PetscCall(MatAXPY(C, 2.0, B, SAME_NONZERO_PATTERN));
+
+    PetscCall(MatDenseCUDAGetArray(C, &arr));
+
+    PetscCall(VecCUDARestoreArray(v2, &arr));
+
+
+    PetscCall(MatDenseCUDARestoreArray(C, &arr));
+    
+
+
+
+
+
+
     Vec v3;
     PetscCall(VecDuplicate(v, &v3));
     PetscCall(VecScatterBegin(scatter, v2, v3, INSERT_VALUES, SCATTER_REVERSE));
