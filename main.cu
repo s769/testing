@@ -1,4 +1,4 @@
-.#include "shared.cuh"
+#include "shared.cuh"
 
 
 
