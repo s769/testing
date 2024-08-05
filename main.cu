@@ -10,7 +10,7 @@ int main(int argc, char **argv) {
     PetscFunctionBeginUser;
     PetscCall(PetscInitialize(&argc, &argv, NULL, NULL));
     PetscCall(PetscOptionsGetInt(NULL, NULL, "-N", &N, NULL));
-    PetscCall(MatCreateDenseCUDA(PETSC_DECIDE,PETSC_DECIDE,N,N,NULL,&A));
+    PetscCall(MatCreateDenseCUDA(PETSC_COMM_WORLD,PETSC_DECIDE,PETSC_DECIDE,N,N,NULL,&A));
     PetscCall(PetscViewerBinaryOpen(PETSC_COMM_WORLD, "A.dat", FILE_MODE_WRITE, &viewer));
     PetscCall(PetscViewerPushFormat(viewer, PETSC_VIEWER_NATIVE));
     PetscCall(MatView(A, viewer));
