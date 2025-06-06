@@ -28,7 +28,7 @@ Run with:
 ```
 
 where:
-- `trans ` is
+- `trans` is
     - `N` for no op
     - `T` for transpose
     - `H` for conjugate transpose
